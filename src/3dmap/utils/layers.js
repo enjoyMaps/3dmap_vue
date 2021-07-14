@@ -3,20 +3,20 @@ import { WebMapTileServiceImageryProvider,GeographicTilingScheme ,WebMapServiceI
 // 天地图影像地址
 let TDT_IMG_URL = "http://{s}.tianditu.gov.cn/img_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
     "&LAYER=img&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
-    "&style=default&format=tiles&tk=7940166064b2ee772fd0d4d57be602e2";
+    "&style=default&format=tiles&tk=换上自己的tk";
 // 天地图影像中文注记服务地址
 let TDT_CIA_URL = "http://{s}.tianditu.gov.cn/cia_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
     "&LAYER=cia&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
-    "&style=default&format=tiles&tk=7940166064b2ee772fd0d4d57be602e2";
+    "&style=default&format=tiles&tk=换上自己的tk";
 
 // 天地图矢量地址
 let TDT_VEC_URL = "http://{s}.tianditu.gov.cn/vec_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
     "&LAYER=vec&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
-    "&style=default&format=tiles&tk=7940166064b2ee772fd0d4d57be602e2";
+    "&style=default&format=tiles&tk=换上自己的tk";
 // 天地图矢量中文注记服务地址
 let TDT_CVA_URL = "http://{s}.tianditu.gov.cn/cva_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
     "&LAYER=cva&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
-    "&style=default&format=tiles&tk=7940166064b2ee772fd0d4d57be602e2";
+    "&style=default&format=tiles&tk=换上自己的tk";
 
 // 天地图影像
 let TDT_IMG = new WebMapTileServiceImageryProvider({
