@@ -17,7 +17,11 @@ let billboards = [];
 export function init3dmap() {
     let viewer;
     Ion.defaultAccessToken =
+<<<<<<< HEAD
         "填上自己的token";
+=======
+        "换上自己的token值";
+>>>>>>> d8cbe728c5daea7828ad71eb26322e160aee6b3f
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
