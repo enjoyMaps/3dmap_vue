@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const cesiumSource = 'node_modules/cesium/Build/Cesium';
-const cesiumTdt = 'node_modules/cesium-tdt/dist/cesiumTdt';
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -30,18 +29,16 @@ module.exports = {
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Assets'), to: 'static/Assets' }]),
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'ThirdParty'), to: 'static/ThirdParty' }]),
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Widgets'), to: 'static/Widgets' }]),
-        new CopyWebpackPlugin([{ from: path.join(cesiumTdt), to: 'static/cesiumTdt' }]),
       ]
     } else {
       plugins = [
         new webpack.DefinePlugin({
-          CESIUM_BASE_URL: JSON.stringify('')
+          CESIUM_BASE_URL: JSON.stringify('/')
         }),
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Workers'), to: 'Workers' }]),
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Assets'), to: 'Assets' }]),
         new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'ThirdParty'), to: 'ThirdParty' }]),
-        new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' }]),
-        new CopyWebpackPlugin([{ from: path.join(cesiumTdt), to: 'static/cesiumTdt' }]),
+        new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' }])
       ]
     }
     return {

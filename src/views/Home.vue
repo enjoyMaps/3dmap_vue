@@ -25,8 +25,6 @@
         <div class="panel" v-show="true">
             <h3>功能清单</h3>
             <ul class="list">
-                <li @click="qhdt = !qhdt">加载底图</li>
-                <li @click="tzshow = !tzshow">调整模型高度</li>
                 <li @click="marker = !marker">添加标注</li>
                 <li @click="particleSystem = !particleSystem">添加粒子效果</li>
                 <li @click="draw = !draw">绘制图形</li>
@@ -116,28 +114,9 @@
                 <el-button @click="addTrack()">加载第一视角轨迹</el-button>
                 <!-- <el-button @click="deltTrack()">加载第一视角轨迹</el-button> -->
             </div>
-            <div class="loadmap" v-show="qhdt">
-                <el-select @change="changemap" v-model="mapdata">
-                    <el-option :value="0" label="ArcGis"></el-option>
-                    <el-option :value="1" label="谷歌"></el-option>
-                    <el-option :value="2" label="高德"></el-option>
-                    <el-option :value="3" label="腾讯"></el-option>
-                </el-select>
-            </div>
             <div class="loadmap" v-show="changjing">
                 <el-button @click="around">旋转地球</el-button>
                 <el-button @click="skybox">自定义天空盒</el-button>
-            </div>
-            <div id="toolbars" v-show="tzshow">
-                <div>Height</div>
-                <input
-                    type="range"
-                    min="-100.0"
-                    max="100.0"
-                    step="1"
-                    data-bind="value: height, valueUpdate: 'input'"
-                />
-                <input type="text" size="5" data-bind="value: height" />
             </div>
             <video
                 id="trailer"
@@ -169,8 +148,6 @@ import {
     Color,
     ParticleSystem,
     SphereEmitter,
-    knockout,
-    UrlTemplateImageryProvider,
     JulianDate,
     SampledPositionProperty,
     TimeIntervalCollection,
@@ -258,9 +235,7 @@ export default {
             terrainProvider: null,
             drawLayer: null,
             showRipple: false,
-            tzshow: false,
             mapdata: 0,
-            qhdt: false,
             point: false,
             guiji: false,
             marker: false,
@@ -320,7 +295,6 @@ export default {
     mounted: function () {
         init3dmap();
         viewer = window.viewer;
-        this.modifyHeight();
         //绘制工具初始化
         drawTool = new DrawTool({
             viewer: viewer,
@@ -533,39 +507,6 @@ export default {
                 delBillboard(viewer);
             }
         },
-        //切换底图
-        changemap(val) {
-            if (val == 2) {
-                const base = new UrlTemplateImageryProvider({
-                    url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-                });
-                const road = new UrlTemplateImageryProvider({
-                    url: "https://wprd02.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=2&style=8&ltype=1",
-                });
-                // viewer.imageryLayers.removeAll();
-                viewer.imageryLayers.addImageryProvider(base);
-                viewer.imageryLayers.addImageryProvider(road);
-            } else if (val == 3) {
-                const base = new UrlTemplateImageryProvider({
-                    url: "https://p2.map.gtimg.com/sateTiles/{z}/{sx}/{sy}/{x}_{reverseY}.jpg?version=229",
-                    customTags: {
-                        sx: function (imageryProvider, x, y, level) {
-                            return x >> 4;
-                        },
-                        sy: function (imageryProvider, x, y, level) {
-                            return ((1 << level) - y) >> 4;
-                        },
-                    },
-                });
-                const custom = new UrlTemplateImageryProvider({
-                    url: "https://rt3.map.gtimg.com/tile?z={z}&x={x}&y={reverseY}&styleid=2&version=297",
-                });
-                // viewer.imageryLayers.removeAll();
-                viewer.imageryLayers.addImageryProvider(base);
-                viewer.imageryLayers.addImageryProvider(custom);
-            }
-        },
-
         //  添加相应的粒子效果
         // 添加雪花粒子效果
         addSnowParticle: function () {
@@ -726,48 +667,6 @@ export default {
             commonViewer(window.viewer);
         },
         // 进入第一人称视角end
-        // 调整3dtiles数据的高度
-        modifyHeight: function () {
-            var viewModel = {
-                height: 0,
-            };
-
-            knockout.track(viewModel);
-
-            var toolbar = document.getElementById("toolbars");
-            knockout.applyBindings(viewModel, toolbar);
-
-            knockout
-                .getObservable(viewModel, "height")
-                .subscribe(function (height) {
-                    height = Number(height) * 10;
-                    if (isNaN(height)) {
-                        return;
-                    }
-
-                    var cartographic = Cartographic.fromCartesian(
-                        window.tileset.boundingSphere.center
-                    );
-                    var surface = Cartesian3.fromRadians(
-                        cartographic.longitude,
-                        cartographic.latitude,
-                        0.0
-                    );
-                    var offset = Cartesian3.fromRadians(
-                        cartographic.longitude,
-                        cartographic.latitude,
-                        height
-                    );
-                    var translation = Cartesian3.subtract(
-                        offset,
-                        surface,
-                        new Cartesian3()
-                    );
-                    window.tileset.modelMatrix =
-                        Matrix4.fromTranslation(translation);
-                });
-        },
-
         // 测量工具start
         measureDistance: function () {
             this.msd = new MeasureSpaceDistance(viewer, {});
