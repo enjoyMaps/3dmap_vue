@@ -962,8 +962,6 @@ export default {
             this.visulation = false;
             this.shader = false;
             this.czml = false;
-
-            
             switch (type) {
                 case "marker":
                     this.marker = true;
@@ -999,7 +997,6 @@ export default {
                     console.log("d");
             }
         },
-        panelHide: function () {},
     },
 };
 // import "cesium/Build/Cesium/Widgets/widgets.css";
