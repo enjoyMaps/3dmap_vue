@@ -7,6 +7,7 @@ import {
     Cartesian3,
     ScreenSpaceEventHandler,
     Math as cesiumMath,
+    Color as cesiumColor,
     SceneMode,
     createWorldTerrain,
 } from "cesium";
@@ -17,7 +18,7 @@ let billboards = [];
 export function init3dmap() {
     let viewer;
     Ion.defaultAccessToken =
-        "换上自己的token值";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNWNlNTYxNy1jMWUyLTQzZDEtOGVkOC05NWMxMDZjNWI2MmUiLCJpZCI6MTg3NzIsImlhdCI6MTYxNzc3Mzg0N30.HYsuY1lxUR7BSFC9673ApPz2AccXbOtrPRIBCm7AgNU";
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
@@ -39,13 +40,19 @@ export function init3dmap() {
         vrButton: false, // 如果设置为true,将创建VRButton小部件。
         lightColor: new Cartesian3(100.0, 100.0, 100.0),
         imageryProvider: TDT_IMG,
+        orderIndependentTranslucency: false,
+        contextOptions: {
+            webgl: {
+                alpha: true,
+            }
+        },
     });
+    viewer.scene.skyBox.show = false;
+viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
 
     //去cesium logo水印或css
     viewer.cesiumWidget.creditContainer.style.display = "none";
-
     viewer.scene.globe.depthTestAgainstTerrain = true;
-
     // 添加天地图中文注记服务
     viewer.imageryLayers.addImageryProvider(TDT_CIA);
 
