@@ -17,7 +17,7 @@ let billboards = [];
 export function init3dmap() {
     let viewer;
     Ion.defaultAccessToken =
-        "换上自己的token值";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNWNlNTYxNy1jMWUyLTQzZDEtOGVkOC05NWMxMDZjNWI2MmUiLCJpZCI6MTg3NzIsImlhdCI6MTYxNzc3Mzg0N30.HYsuY1lxUR7BSFC9673ApPz2AccXbOtrPRIBCm7AgNU";
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
