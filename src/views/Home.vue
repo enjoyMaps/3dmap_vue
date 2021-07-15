@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="toolbar"></div>
-        <div id="cesiumContainer">
+        <div id="cesiumContainer" style="background-image: url('./images/cesium/bac.jpg');">
             <div id="info"></div>
             <div
                 id="toolTip"
@@ -67,10 +67,10 @@
                 <el-button @click="cViewer">退出第一人称视角</el-button>
             </div>
             <div class="loadmap" v-show="measure">
-                <el-button @click="measureDistance">测距</el-button>
+                <el-button @click="measures('distance')">测距</el-button>
                 <!-- <el-button @click="measureHeight">测量高度</el-button> -->
-                <el-button @click="measureArea">测量面</el-button>
-                <el-button @click="measureNone">清除</el-button>
+                <el-button @click="measures('area')">测量面</el-button>
+                <el-button @click="measures('none')">清除</el-button>
             </div>
 
             <div class="loadmap" v-show="draw">
@@ -169,36 +169,35 @@ let drawTool;
 let viewer;
 
 // import Cesium from "cesium";
-import { init3dmap } from "../3dmap/3dmaps.js";
+import { init3dmap } from "@/3dmap/3dmaps.js";
 
-import { DrawTool } from "../3dmap/tools/drawtools/drawTool.js";
+import { DrawTool } from "@/3dmap/tools/drawtools/drawTool.js";
 
-import { addVideo } from "../3dmap/video/index.js";
+import { addVideo } from "@/3dmap/video/index.js";
 import {
     MeasureSpaceDistance,
     MeasureSpaceArea,
-    measureHgt,
-} from "../3dmap/tools/measure.js";
+} from "@/3dmap/tools/measure.js";
 
-import { personalViewer, commonViewer } from "../3dmap/tools/personalViewer.js";
+import { personalViewer, commonViewer } from "@/3dmap/tools/personalViewer.js";
 // 可视化专题图
-import { addHeatmap } from "../3dmap/visulation/heatmap/heatmap.js";
+import { addHeatmap } from "@/3dmap/visulation/heatmap/heatmap.js";
 import {
     onloadtaxi,
     deltaxi,
-} from "../3dmap/visulation/custom/taxisimulation.js";
+} from "@/3dmap/visulation/custom/taxisimulation.js";
 import {
     addPopulationMap,
     delPopulationMap,
-} from "../3dmap/visulation/thematicMap/population.js";
-import { addEcharts, delEcharts } from "../3dmap/visulation/echarts/index.js";
-import { flowLine } from "../3dmap/visulation/custom/flowLine/index.js";
-import { MPoint } from "../3dmap/visulation/custom/MPoint/index.js";
-import { addMapvHeatmap } from "../3dmap/visulation/custom/qianxi/qianxi.js";
+} from "@/3dmap/visulation/thematicMap/population.js";
+import { addEcharts, delEcharts } from "@/3dmap/visulation/echarts/index.js";
+import { flowLine } from "@/3dmap/visulation/custom/flowLine/index.js";
+import { MPoint } from "@/3dmap/visulation/custom/MPoint/index.js";
+import { addMapvHeatmap } from "@/3dmap/visulation/custom/qianxi/qianxi.js";
 // import { track,deltrack } from "../3dmap/tools/track.js";
-import { createFlyLines } from "../3dmap/shader/flowLine.js";
+import { createFlyLines } from "@/3dmap/shader/flowLine.js";
 
-import { addCircleChart } from "../3dmap/visulation/echarts/circleCharts.js";
+import { addCircleChart } from "@/3dmap/visulation/echarts/circleCharts.js";
 
 import Ripple from "./marker/Ripple.vue";
 import Track from "@/component/Track.vue";
@@ -211,17 +210,17 @@ import {
     addTextBillboard,
     addCanvasBillboard,
     delBillboard,
-} from "../3dmap/marker/marker.js";
+} from "@/3dmap/marker/marker.js";
 
-import { currentMap } from "../3dmap/visulation/mapv/index.js";
+import { currentMap } from "@/3dmap/visulation/mapv/index.js";
 
 // shader编程部分
-import { addradar, delradar } from "../3dmap/shader/radar.js";
-import { addPolygon } from "../3dmap/shader/polygon.js";
-import { addWater } from "../3dmap/shader/water.js";
+import { addradar, delradar } from "@/3dmap/shader/radar.js";
+import { addPolygon } from "@/3dmap/shader/polygon.js";
+import { addWater } from "@/3dmap/shader/water.js";
 
 // czml编程部分
-import { addGlobeFly, delGlobeFly } from "../3dmap/czml/globeFly.js";
+import { addGlobeFly, delGlobeFly } from "@/3dmap/czml/globeFly.js";
 
 export default {
     name: "Home",
@@ -277,6 +276,8 @@ export default {
             ],
             msd: {},
             msa: {},
+            msaArr: [],
+            msdArr: [],
         };
     },
     destroyed() {
@@ -666,20 +667,24 @@ export default {
         },
         // 进入第一人称视角end
         // 测量工具start
-        measureDistance: function () {
-            this.msd = new MeasureSpaceDistance(viewer, {});
-            this.msd.start();
-        },
-        measureArea: function () {
-            this.msa = new MeasureSpaceArea(viewer, {});
-            this.msa.start();
-        },
-        measureHeight: function () {
-            measureHgt(viewer);
-        },
-        measureNone: function () {
-            this.msd.clear();
-            this.msa.clear();
+        measures(type) {
+            if (type == "distance") {
+                //绘制工具初始化
+                this.msd = new MeasureSpaceDistance(window.viewer);
+                this.msdArr.push(this.msd);
+                this.msd.start();
+            } else if (type == "area") {
+                this.msa = new MeasureSpaceArea(window.viewer);
+                this.msaArr.push(this.msa);
+                this.msa.start();
+            } else if (type == "none") {
+                for (let index = 0; index < this.msdArr.length; index++) {
+                    this.msdArr[index].clear();
+                }
+                for (let i = 0; i < this.msaArr.length; i++) {
+                    this.msaArr[i].clear();
+                }
+            }
         },
         // 测量工具end
 

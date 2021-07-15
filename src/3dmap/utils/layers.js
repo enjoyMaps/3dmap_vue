@@ -27,7 +27,7 @@ let TDT_IMG = new WebMapTileServiceImageryProvider({
     tileMatrixSetID: "c",
     subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
     tilingScheme: new GeographicTilingScheme(),
-    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
+    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",],
     maximumLevel: 50,
     show: false
 });
@@ -41,7 +41,7 @@ let TDT_CIA = new WebMapTileServiceImageryProvider({
     tileMatrixSetID: "c",
     subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
     tilingScheme: new GeographicTilingScheme(),
-    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
+    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", ],
     maximumLevel: 50,
     show: false
 });
@@ -55,7 +55,7 @@ let TDT_VEC = new WebMapTileServiceImageryProvider({
     tileMatrixSetID: "c",
     subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
     tilingScheme: new GeographicTilingScheme(),
-    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
+    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", ],
     maximumLevel: 50,
     show: false
 });
@@ -69,7 +69,7 @@ let TDT_CVA = new WebMapTileServiceImageryProvider({
     tileMatrixSetID: "c",
     subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
     tilingScheme: new GeographicTilingScheme(),
-    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
+    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", ],
     maximumLevel: 50,
     show: false
 });

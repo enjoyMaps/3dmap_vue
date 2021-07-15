@@ -7,6 +7,7 @@ import {
     Cartesian3,
     ScreenSpaceEventHandler,
     Math as cesiumMath,
+    Color as cesiumColor,
     SceneMode,
     createWorldTerrain,
 } from "cesium";
@@ -39,7 +40,15 @@ export function init3dmap() {
         vrButton: false, // 如果设置为true,将创建VRButton小部件。
         lightColor: new Cartesian3(100.0, 100.0, 100.0),
         imageryProvider: TDT_IMG,
+        orderIndependentTranslucency: false,
+        contextOptions: {
+            webgl: {
+                alpha: true,
+            }
+        },
     });
+    viewer.scene.skyBox.show = false;
+viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
 
     //去cesium logo水印或css
     viewer.cesiumWidget.creditContainer.style.display = "none";

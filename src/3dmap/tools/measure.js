@@ -1,4 +1,4 @@
-import { ScreenSpaceEventType, Cartesian2, Cartesian3, Entity, Color, NearFarScalar, CallbackProperty, LabelStyle, Cartographic, EllipsoidGeodesic, Math as cesiumMath, PolygonHierarchy, ClassificationType, defined, DeveloperError, BillboardCollection, VerticalOrigin, ScreenSpaceEventHandler, LabelCollection, Ellipsoid, HorizontalOrigin, HeightReference, Matrix4, PolygonGraphics, SceneMode } from 'cesium'
+import { ScreenSpaceEventType, Cartesian2, Cartesian3, Color, CallbackProperty, LabelStyle, Cartographic, Math as cesiumMath, PolygonHierarchy, defined,  VerticalOrigin, ScreenSpaceEventHandler,  HorizontalOrigin, HeightReference, Matrix4, PolygonGraphics, SceneMode,Cesium3DTileFeature } from 'cesium'
 import { MovePrompt } from './drawtools/prompt/movePrompt.js'
 
 /* import { point, polygon, featureCollection } from '@turf/helpers'
@@ -16,7 +16,7 @@ import { area as areaTurf } from '@turf/turf'
 
 
 //空间距离量算js
-var MeasureSpaceDistance = function (viewer, opt) {
+var MeasureSpaceDistance = function (viewer) {
     this.objId = Number((new Date()).getTime() + "" + Number(Math.random() * 1000).toFixed(0));
     this.viewer = viewer;
     this.handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
@@ -30,7 +30,7 @@ var MeasureSpaceDistance = function (viewer, opt) {
     this.floatLable = null;
     this.lastCartesian = null;
     this.allDistance = 0;
-    var that = this;
+    // var that = this;
 }
 MeasureSpaceDistance.prototype = {
     //开始测量
@@ -38,9 +38,10 @@ MeasureSpaceDistance.prototype = {
         var that = this;
         this.handler.setInputAction(function (evt) { //单机开始绘制
             var cartesian = that.getCatesian3FromPX(evt.position, that.viewer, [that.polyline, that.floatLable]);
+            let label;
             if (!cartesian) return;
             if (that.positions.length == 0) {
-                var label = that.createLabel(cartesian, "起点");
+                label = that.createLabel(cartesian, "起点");
                 that.labels.push(label);
                 that.floatLable = that.createLabel(cartesian, "");
                 that.floatLable.show = false;
@@ -54,7 +55,7 @@ MeasureSpaceDistance.prototype = {
                 var distance = that.getLength(cartesian, that.lastCartesian);
                 that.allDistance += distance;
                 var text = that.formatLength(distance);
-                var label = that.createLabel(cartesian, text);
+                label = that.createLabel(cartesian, text);
                 that.labels.push(label);
             }
             that.lastCartesian = cartesian;
@@ -167,13 +168,14 @@ MeasureSpaceDistance.prototype = {
     formatLength: function (num, dw) {
         if (!num) return;
         var res = null;
+        let n;
         if (!dw) {
             dw = "米";
-            var n = Number(num).toFixed(2);
+            n = Number(num).toFixed(2);
             res = n + dw;
         }
         if (dw == "千米" || dw == "公里") {
-            var n = (Number(num) / 1000).toFixed(2);
+            n = (Number(num) / 1000).toFixed(2);
             res = n + dw;
         }
         return res;
@@ -223,7 +225,7 @@ MeasureSpaceDistance.prototype = {
 
 //空间面积测量js
 
-var MeasureSpaceArea = function (viewer, opt) {
+var MeasureSpaceArea = function (viewer) {
     this.objId = Number((new Date()).getTime() + "" + Number(Math.random() * 1000).toFixed(0));
     this.viewer = viewer;
     this.handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
@@ -247,18 +249,16 @@ MeasureSpaceArea.prototype = {
             // start
             var pickedO = that.viewer.scene.pick(evt.position);
             console.log(pickedO);
-            let Rectangle = that.viewer.camera.computeViewRectangle();
+            // let Rectangle = that.viewer.camera.computeViewRectangle();
             // console.log(Rectangle);
             // var pickedObjectC = viewer.scene.pick(e.endPosition);
             // console.log("左键单击事件：", e.position);
-            //这里处理单击事件代码ee
-            var position = that.viewer.scene.pickPosition(evt.position);
-            var wgs84 = that.viewer.scene.globe.ellipsoid.cartesianToCartographic(
+            /* var wgs84 = that.viewer.scene.globe.ellipsoid.cartesianToCartographic(
                 position
-            );
-            var lng = cesiumMath.toDegrees(wgs84.longitude);
+            ); */
+            /* var lng = cesiumMath.toDegrees(wgs84.longitude);
             var lat = cesiumMath.toDegrees(wgs84.latitude);
-            var hgt = wgs84.height;
+            var hgt = wgs84.height; */
             // end
             var cartesian = that.getCatesian3FromPX(evt.position, that.viewer, [that.polygon, that.polyline]);
             console.log(cartesian);
@@ -425,13 +425,14 @@ MeasureSpaceArea.prototype = {
     formatArea: function (num, dw) {
         if (!num) return;
         var res = null;
+        var n
         if (!dw) {
             dw = "平方米";
-            var n = Number(num).toFixed(2);
+            n = Number(num).toFixed(2);
             res = n + dw;
         }
         if (dw == "平方千米" || dw == "平方公里") {
-            var n = (Number(num) / 1000000).toFixed(2);
+            n = (Number(num) / 1000000).toFixed(2);
             res = n + dw;
         }
         return res;
@@ -470,7 +471,7 @@ MeasureSpaceArea.prototype = {
 export function measureHgt(viewer) {
     const scene = viewer.scene;
     const handler = new ScreenSpaceEventHandler(scene.canvas);
-    let previousPickedEntity = undefined;
+    // let previousPickedEntity = undefined;
     var labelEntity = viewer.entities.add({
         label: {
             show: false,
@@ -482,7 +483,7 @@ export function measureHgt(viewer) {
         }
     });
     handler.setInputAction(function (movement) {
-        const modelEntity = scene.pick(movement.endPosition);
+        // const modelEntity = scene.pick(movement.endPosition);
         var foundPosition = false;
         if (scene.mode !== SceneMode.MORPHING) {
             var pickedObject = scene.pick(movement.endPosition);
@@ -516,11 +517,11 @@ export function measureHgt(viewer) {
 * @param {Array.Cartesian}
 * @returns {Number} 返回面积数值。
 */
-export function getSurfaceArea (positions) {
+/* export function getSurfaceArea (positions) {
  if (positions.length < 3) {
    return 0
  }
- const { Cartesian3, EllipsoidTangentPlane, Ellipsoid, Math: CesiumMath, PolygonGeometryLibrary, PolygonHierarchy, VertexFormat } = Cesium
+//  const { Cartesian3, EllipsoidTangentPlane, Ellipsoid, Math: CesiumMath, PolygonGeometryLibrary, PolygonHierarchy, VertexFormat } = Cesium
  const perPositionHeight = true
  // 获取组成多边形的三角形。
  const tangentPlane = EllipsoidTangentPlane.fromPoints(
@@ -571,7 +572,7 @@ export function getSurfaceArea (positions) {
    area += Math.sqrt(s * (s - a) * (s - b) * (s - c))
  }
  return area
-}
+} */
 
 
 
