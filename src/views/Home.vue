@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="toolbar"></div>
-        <div id="cesiumContainer">
+        <div id="cesiumContainer" style="background-image: url('./images/cesium/bac.jpg');">
             <div id="info"></div>
             <div
                 id="toolTip"
@@ -23,20 +23,19 @@
         <Track id="track" v-show="showTrack"></Track>
 
         <div class="panel" v-show="true">
-            <h3>功能清单</h3>
             <ul class="list">
-                <li @click="marker = !marker">添加标注</li>
-                <li @click="particleSystem = !particleSystem">添加粒子效果</li>
-                <li @click="draw = !draw">绘制图形</li>
-                <li @click="measure = !measure">测量工具</li>
-                <li @click="perViewer = !perViewer">第一人称视角</li>
+                <li @click="panelShow('marker')">添加标注</li>
+                <li @click="panelShow('particleSystem')">添加粒子效果</li>
+                <li @click="panelShow('draw')">绘制图形</li>
+                <li @click="panelShow('measure')">测量工具</li>
+                <li @click="panelShow('perViewer')">第一人称视角</li>
                 <li @click="addVideos">添加视频贴图</li>
                 <!-- <li @click="point = !point">点状对象</li> -->
-                <li @click="guiji = !guiji">轨迹漫游</li>
-                <li @click="changjing = !changjing">场景</li>
-                <li @click="visulation = !visulation">可视化专题图</li>
-                <li @click="shader = !shader">shader特效</li>
-                <li @click="czml = !czml">CZML</li>
+                <li @click="panelShow('guiji')">轨迹漫游</li>
+                <li @click="panelShow('changjing')">场景</li>
+                <li @click="panelShow('visulation')">可视化专题图</li>
+                <li @click="panelShow('shader')">shader特效</li>
+                <li @click="panelShow('czml')">CZML</li>
             </ul>
             <div class="loadmap" v-show="czml">
                 <el-button @click="addCzml('globeFly')">全球轨迹线</el-button>
@@ -68,10 +67,10 @@
                 <el-button @click="cViewer">退出第一人称视角</el-button>
             </div>
             <div class="loadmap" v-show="measure">
-                <el-button @click="measureDistance">测距</el-button>
+                <el-button @click="measures('distance')">测距</el-button>
                 <!-- <el-button @click="measureHeight">测量高度</el-button> -->
-                <el-button @click="measureArea">测量面</el-button>
-                <el-button @click="measureNone">清除</el-button>
+                <el-button @click="measures('area')">测量面</el-button>
+                <el-button @click="measures('none')">清除</el-button>
             </div>
 
             <div class="loadmap" v-show="draw">
@@ -170,36 +169,35 @@ let drawTool;
 let viewer;
 
 // import Cesium from "cesium";
-import { init3dmap } from "../3dmap/3dmaps.js";
+import { init3dmap } from "@/3dmap/3dmaps.js";
 
-import { DrawTool } from "../3dmap/tools/drawtools/drawTool.js";
+import { DrawTool } from "@/3dmap/tools/drawtools/drawTool.js";
 
-import { addVideo } from "../3dmap/video/index.js";
+import { addVideo } from "@/3dmap/video/index.js";
 import {
     MeasureSpaceDistance,
     MeasureSpaceArea,
-    measureHgt,
-} from "../3dmap/tools/measure.js";
+} from "@/3dmap/tools/measure.js";
 
-import { personalViewer, commonViewer } from "../3dmap/tools/personalViewer.js";
+import { personalViewer, commonViewer } from "@/3dmap/tools/personalViewer.js";
 // 可视化专题图
-import { addHeatmap } from "../3dmap/visulation/heatmap/heatmap.js";
+import { addHeatmap } from "@/3dmap/visulation/heatmap/heatmap.js";
 import {
     onloadtaxi,
     deltaxi,
-} from "../3dmap/visulation/custom/taxisimulation.js";
+} from "@/3dmap/visulation/custom/taxisimulation.js";
 import {
     addPopulationMap,
     delPopulationMap,
-} from "../3dmap/visulation/thematicMap/population.js";
-import { addEcharts, delEcharts } from "../3dmap/visulation/echarts/index.js";
-import { flowLine } from "../3dmap/visulation/custom/flowLine/index.js";
-import { MPoint } from "../3dmap/visulation/custom/MPoint/index.js";
-import { addMapvHeatmap } from "../3dmap/visulation/custom/qianxi/qianxi.js";
+} from "@/3dmap/visulation/thematicMap/population.js";
+import { addEcharts, delEcharts } from "@/3dmap/visulation/echarts/index.js";
+import { flowLine } from "@/3dmap/visulation/custom/flowLine/index.js";
+import { MPoint } from "@/3dmap/visulation/custom/MPoint/index.js";
+import { addMapvHeatmap } from "@/3dmap/visulation/custom/qianxi/qianxi.js";
 // import { track,deltrack } from "../3dmap/tools/track.js";
-import { createFlyLines } from "../3dmap/shader/flowLine.js";
+import { createFlyLines } from "@/3dmap/shader/flowLine.js";
 
-import { addCircleChart } from "../3dmap/visulation/echarts/circleCharts.js";
+import { addCircleChart } from "@/3dmap/visulation/echarts/circleCharts.js";
 
 import Ripple from "./marker/Ripple.vue";
 import Track from "@/component/Track.vue";
@@ -212,18 +210,17 @@ import {
     addTextBillboard,
     addCanvasBillboard,
     delBillboard,
-} from "../3dmap/marker/marker.js";
+} from "@/3dmap/marker/marker.js";
 
-import { currentMap } from "../3dmap/visulation/mapv/index.js";
+import { currentMap } from "@/3dmap/visulation/mapv/index.js";
 
 // shader编程部分
-import { addradar, delradar } from "../3dmap/shader/radar.js";
-import { addPolygon } from "../3dmap/shader/polygon.js";
-import { addWater } from "../3dmap/shader/water.js";
+import { addradar, delradar } from "@/3dmap/shader/radar.js";
+import { addPolygon } from "@/3dmap/shader/polygon.js";
+import { addWater } from "@/3dmap/shader/water.js";
 
 // czml编程部分
-import {addGlobeFly,delGlobeFly} from "../3dmap/czml/globeFly.js"
-
+import { addGlobeFly, delGlobeFly } from "@/3dmap/czml/globeFly.js";
 
 export default {
     name: "Home",
@@ -279,6 +276,8 @@ export default {
             ],
             msd: {},
             msa: {},
+            msaArr: [],
+            msdArr: [],
         };
     },
     destroyed() {
@@ -306,11 +305,11 @@ export default {
             addWater();
         },
         addPolygons() {
-            addPolygon()
+            addPolygon();
         },
         addCzml(type) {
-            if (type == 'globeFly') {
-                addGlobeFly()
+            if (type == "globeFly") {
+                addGlobeFly();
             }
         },
         addCircleCharts() {
@@ -668,20 +667,24 @@ export default {
         },
         // 进入第一人称视角end
         // 测量工具start
-        measureDistance: function () {
-            this.msd = new MeasureSpaceDistance(viewer, {});
-            this.msd.start();
-        },
-        measureArea: function () {
-            this.msa = new MeasureSpaceArea(viewer, {});
-            this.msa.start();
-        },
-        measureHeight: function () {
-            measureHgt(viewer);
-        },
-        measureNone: function () {
-            this.msd.clear();
-            this.msa.clear();
+        measures(type) {
+            if (type == "distance") {
+                //绘制工具初始化
+                this.msd = new MeasureSpaceDistance(window.viewer);
+                this.msdArr.push(this.msd);
+                this.msd.start();
+            } else if (type == "area") {
+                this.msa = new MeasureSpaceArea(window.viewer);
+                this.msaArr.push(this.msa);
+                this.msa.start();
+            } else if (type == "none") {
+                for (let index = 0; index < this.msdArr.length; index++) {
+                    this.msdArr[index].clear();
+                }
+                for (let i = 0; i < this.msaArr.length; i++) {
+                    this.msaArr[i].clear();
+                }
+            }
         },
         // 测量工具end
 
@@ -950,9 +953,54 @@ export default {
             };
             createFlyLines(viewer, data);
         },
-
         addradars: function () {
             addradar(viewer);
+        },
+        panelShow: function (type) {
+            this.marker = false;
+            this.particleSystem = false;
+            this.draw = false;
+            this.measure = false;
+            this.perViewer = false;
+            this.guiji = false;
+            this.changjing = false;
+            this.visulation = false;
+            this.shader = false;
+            this.czml = false;
+            switch (type) {
+                case "marker":
+                    this.marker = true;
+                    break;
+                case "particleSystem":
+                    this.particleSystem = true;
+                    break;
+                case "draw":
+                    this.draw = true;
+                    break;
+                case "measure":
+                    this.measure = true;
+                    break;
+                case "perViewer":
+                    this.perViewer = true;
+                    break;
+                case "guiji":
+                    this.guiji = true;
+                    break;
+                case "changjing":
+                    this.changjing = true;
+                    break;
+                case "visulation":
+                    this.visulation = true;
+                    break;
+                case "shader":
+                    this.shader = true;
+                    break;
+                case "czml":
+                    this.czml = true;
+                    break;
+                default:
+                    console.log("d");
+            }
         },
     },
 };
@@ -994,10 +1042,11 @@ export default {
 
     .panel {
         width: 300px;
-        background: rgba(0, 0, 0, 0.5);
+        height: 500px;
+        background: rgba(0, 0, 0, 0);
         position: absolute;
+        // top: 25%;
         top: 0;
-        bottom: 0;
         right: 0;
         h3 {
             text-align: center;
@@ -1006,7 +1055,7 @@ export default {
         }
         .list {
             li {
-                padding-left: 30px;
+                padding-left: 100px;
                 color: #fff;
                 cursor: pointer;
                 line-height: 30px;
