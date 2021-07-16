@@ -170,7 +170,6 @@ export function addGifBillboard(viewer) {
     };
 }
 
-
 // 添加文字标注
 export function addTextBillboard(viewer) {
     viewer.entities.add({
@@ -189,44 +188,7 @@ export function addTextBillboard(viewer) {
         },
     });
 }
-// 添加自己绘制的canvas标注
-export function addCanvasBillboard(viewer) {
-    const text = "波波安";
-    // 飞到坐标视角
-    window.viewer.scene.camera.flyTo({
-        destination: Cartesian3.fromDegrees(108.93636821424396,
-            32.70745267099441,
-            500),
-        orientation: {
-            heading: 3.785774498653955,
-            pitch: -0.45235945859613347,
-            roll: 6.281602443469065
-        }
-    });
-    // 添加的实体
-    window.viewer.entities.add({
-        id: "23562112",
-        name: text,
-        position: Cartesian3.fromDegrees(108.93636821424396,
-            32.70745267099441,
-            500),
-        billboard: {
-            image: _this.img,
-            disableDepthTestDistance: 350000, // 开启深度检测距离
-            distanceDisplayCondition: new DistanceDisplayCondition(0, 1000000000000),
-            scaleByDistance: new NearFarScalar(200000, 1.2, 100000000000, 0.5)
-        },
-        label: {
-            text: text,
-            font: '14pt Source Han Sans CN', // 字体样式
-            fillColor: Color.CHARTREUSE, // 字体颜色
-            style: LabelStyle.FILL, // label样式
-            outlineWidth: 2,
-            verticalOrigin: VerticalOrigin.CENTER, // 垂直位置
-            pixelOffset: new Cartesian2(0, -30) // 偏移
-        }
-    });
-}
+
 // 删除当前加载的标注
 export function delBillboard(viewer) {
     viewer.entities.removeAll();
