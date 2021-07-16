@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0a4feb"],{"098d":function(n,p,b){n.exports=b.p+"static/media/big-buck-bunny_trailer.9b962361.mp4"}}]);
