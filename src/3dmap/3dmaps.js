@@ -52,9 +52,7 @@ viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
 
     //去cesium logo水印或css
     viewer.cesiumWidget.creditContainer.style.display = "none";
-
     viewer.scene.globe.depthTestAgainstTerrain = true;
-
     // 添加天地图中文注记服务
     viewer.imageryLayers.addImageryProvider(TDT_CIA);
 

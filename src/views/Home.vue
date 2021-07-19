@@ -36,6 +36,7 @@
                 <li @click="panelShow('visulation')">可视化专题图</li>
                 <li @click="panelShow('shader')">shader特效</li>
                 <li @click="panelShow('czml')">CZML</li>
+                <li @click="panelShow('none')">关闭按钮</li>
             </ul>
             <div class="loadmap" v-show="czml">
                 <el-button @click="addCzml('globeFly')">全球轨迹线</el-button>
@@ -250,30 +251,6 @@ export default {
             },
             showTrack: false,
             changjing: false,
-            imags: [
-                "./static/images/markers/1.png",
-                "./static/images/markers/2.png",
-                "./static/images/markers/3.png",
-                "./static/images/markers/4.png",
-                "./static/images/markers/5.png",
-                "./static/images/markers/6.png",
-                "./static/images/markers/7.png",
-                "./static/images/markers/8.png",
-                "./static/images/markers/5.png",
-                "./static/images/markers/6.png",
-            ],
-            model: [
-                {
-                    id: "model0",
-                    name: "木塔",
-                    url: "./model/Wood_Tower.gltf",
-                },
-                {
-                    id: "model1",
-                    name: "人",
-                    url: "./model/Cesium_Man.gltf",
-                },
-            ],
             msd: {},
             msa: {},
             msaArr: [],
@@ -1041,13 +1018,13 @@ export default {
     }
 
     .panel {
-        width: 300px;
+        width: 100px;
         height: 500px;
         background: rgba(0, 0, 0, 0);
         position: absolute;
         // top: 25%;
         top: 0;
-        right: 0;
+        right: 6.5%;
         h3 {
             text-align: center;
             font-size: 25px;
@@ -1055,12 +1032,14 @@ export default {
         }
         .list {
             li {
-                padding-left: 100px;
+                // padding-left: 100px;
                 color: #fff;
+                text-align: center;
                 cursor: pointer;
                 line-height: 30px;
                 &:hover {
                     color: skyblue;
+                    background-color: rgb(102, 165, 160);
                 }
             }
         }

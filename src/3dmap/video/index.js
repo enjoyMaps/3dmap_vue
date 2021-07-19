@@ -2,24 +2,11 @@ import {
     Cartesian3,
     PolygonHierarchy,
     ClassificationType,
-    VideoSynchronizer,
 } from "cesium";
 export function addVideo() {
     var videoElement = document.getElementById("trailer");
     var video = viewer.entities.add({
         polygon: {
-            /*hierarchy: new PolygonHierarchy(
-                Cartesian3.fromDegreesArray([
-                    108.93513157533125,
-                    32.709571191693975,
-                    108.93534185110941,
-                    32.709558658009335,
-                    108.93530503636097 ,
-                    32.70956697222442,
-                    108.93513084930134,
-                    32.70957962171966,
-                ])
-            ), */
             hierarchy: new PolygonHierarchy(
                 Cartesian3.fromDegreesArray([
                     108.93456287429599,
@@ -33,19 +20,18 @@ export function addVideo() {
                 ])
             ),
             classificationType: ClassificationType.BOTH,
-            //material: videoElement
         },
     });
 
     var videoElement = document.getElementById("trailer");
     video.polygon.material = videoElement;
 
-    // viewer.zoomTo(video);
+    viewer.zoomTo(video);
     // 设置与时钟同步
-    var synchronizer = new VideoSynchronizer({
+    /* var synchronizer = new VideoSynchronizer({
         clock: viewer.clock,
         element: videoElement,
-    });
-    
+    }); */
+
 }
 
