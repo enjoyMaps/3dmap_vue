@@ -295,5 +295,4 @@ export function addEcharts(viewer) {
 
 export function delEcharts(viewer) {
     curentLayer.dispose();
-    // viewer.entities.removeAll();
 }
