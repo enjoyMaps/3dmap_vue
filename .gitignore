@@ -2,6 +2,7 @@
 node_modules
 /src/3dmap/3dmaps.js
 /src/3dmap/utils/layers.js
+package.json
 
 
 # local env files
