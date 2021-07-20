@@ -1,5 +1,33 @@
 window.CESIUM_BASE_URL = '/';
 import "cesium/Build/Cesium/Widgets/widgets.css";
+/* import {
+    Ion,
+    TileMapServiceImageryProvider,
+    ScreenSpaceEventType,
+    Viewer,
+    Cartesian3,
+    HeadingPitchRoll,
+    Matrix4,
+    Transforms,
+    CylinderGeometry,
+    ScreenSpaceEventHandler,
+    Math as cesiumMath,
+    buildModuleUrl,
+    Cesium3DTileset,
+    Rectangle,
+    SceneMode,
+    PolygonHierarchy,
+    CallbackProperty,
+    Color as cesiumColor,
+    GeometryInstance,
+    RectangleGeometry,
+    Primitive,
+    EllipsoidSurfaceAppearance,
+    Material,
+    MaterialAppearance,
+    CircleGeometry,
+    ColorGeometryInstanceAttribute
+} from "cesium"; */
 import {
     Ion,
     ScreenSpaceEventType,
@@ -18,12 +46,12 @@ let billboards = [];
 export function init3dmap() {
     let viewer;
     Ion.defaultAccessToken =
-        "填上自己的Token";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNWNlNTYxNy1jMWUyLTQzZDEtOGVkOC05NWMxMDZjNWI2MmUiLCJpZCI6MTg3NzIsImlhdCI6MTYxNzc3Mzg0N30.HYsuY1lxUR7BSFC9673ApPz2AccXbOtrPRIBCm7AgNU";
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
-        animation: true, //是否创建动画小器件，左下角仪表 
-        timeline: true, //是否显示时间轴
+        animation: false, //是否创建动画小器件，左下角仪表 
+        timeline: false, //是否显示时间轴
         sceneModePicker: false, //是否显示3D/2D选择器  
         geocoder: false, //是否显示geocoder小器件，右上角查询按钮
         sceneMode: SceneMode.SCENE3D,
@@ -37,7 +65,7 @@ export function init3dmap() {
         navigationInstructionsInitiallyVisible: false,
         baseLayerPicker: false, //右上角 地形
         fullscreenButton: false, //右下角,全屏控件
-        vrButton: false, // 如果设置为true,将创建VRButton小部件。
+        vrButton: false, // 如果设置为true,将创建VRButton小部件
         lightColor: new Cartesian3(100.0, 100.0, 100.0),
         imageryProvider: TDT_IMG,
         orderIndependentTranslucency: false,
@@ -48,7 +76,7 @@ export function init3dmap() {
         },
     });
     viewer.scene.skyBox.show = false;
-viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
+    viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
 
     //去cesium logo水印或css
     viewer.cesiumWidget.creditContainer.style.display = "none";
@@ -69,9 +97,10 @@ viewer.scene.backgroundColor = new cesiumColor(0.0, 0.0, 0.0, 0.0);
     handler.setInputAction(function (e) {
         // 采集模型上的点位
         var pickedO = viewer.scene.pick(e.position);
-        let Rectangle = viewer.camera.computeViewRectangle();
-        Rectangle = [cesiumMath.toDegrees(Rectangle.west), cesiumMath.toDegrees(Rectangle.south), cesiumMath.toDegrees(Rectangle.east), cesiumMath.toDegrees(Rectangle.north)]
-        //这里处理单击事件代码ee
+        // let Rectangle = viewer.camera.computeViewRectangle();
+        // Rectangle = [cesiumMath.toDegrees(Rectangle.west), cesiumMath.toDegrees(Rectangle.south), cesiumMath.toDegrees(Rectangle.east), cesiumMath.toDegrees(Rectangle.north)]
+
+        //这里处理单击事件代码
         var position = viewer.scene.pickPosition(e.position);
         var wgs84 = viewer.scene.globe.ellipsoid.cartesianToCartographic(
             position

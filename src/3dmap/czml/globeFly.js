@@ -1,24 +1,7 @@
 import {
-    Ion,
-    TileMapServiceImageryProvider,
-    ScreenSpaceEventType,
     Cartesian3,
-    HeadingPitchRoll,
-    Matrix4,
-    ScreenSpaceEventHandler,
-    Math as cesiumMath,
-    buildModuleUrl,
-    Cesium3DTileset,
-    Rectangle,
-    SceneMode,
-    CircleGeometry,
-    createWorldTerrain,
-    CesiumTerrainProvider,
-    GoogleEarthEnterpriseMetadata,
-    GoogleEarthEnterpriseTerrainProvider,
     CzmlDataSource
 } from "cesium";
-
 
 export function addGlobeFly() {
     window.viewer.dataSources.add(

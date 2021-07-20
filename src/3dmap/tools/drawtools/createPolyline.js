@@ -6,8 +6,6 @@ import {
     CallbackProperty,
     Cesium3DTileFeature
 } from "cesium";
-
-
 import {MovePrompt} from "./prompt/movePrompt.js";
 
 //绘制线

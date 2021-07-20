@@ -94,9 +94,9 @@
                 <el-button @click="addMarker('addTextBillboard')"
                     >文字标注</el-button
                 >
-                <el-button @click="addMarker('addCanvasBillboard')"
+                <!-- <el-button @click="addMarker('addCanvasBillboard')"
                     >canvas标注</el-button
-                >
+                > -->
                 <el-button @click="addMarker('delBillboard')"
                     >去除标注</el-button
                 >
@@ -209,7 +209,6 @@ import {
     addImgBillboard,
     addGifBillboard,
     addTextBillboard,
-    addCanvasBillboard,
     delBillboard,
 } from "@/3dmap/marker/marker.js";
 
@@ -478,7 +477,7 @@ export default {
             } else if (type == "addTextBillboard") {
                 addTextBillboard(viewer);
             } else if (type == "addCanvasBillboard") {
-                addCanvasBillboard(viewer);
+                // addCanvasBillboard(viewer);
             } else if (type == "delBillboard") {
                 delBillboard(viewer);
             }

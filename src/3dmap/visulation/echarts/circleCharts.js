@@ -1,24 +1,8 @@
 import {
-    Ion,
-    TileMapServiceImageryProvider,
-    ScreenSpaceEventType,
-    Viewer,
     Cartesian3,
-    HeadingPitchRoll,
-    Matrix4,
-    ScreenSpaceEventHandler,
-    Math as cesiumMath,
-    buildModuleUrl,
-    Cesium3DTileset,
-    Rectangle,
-    SceneMode,
-    PolygonHierarchy,
-    CallbackProperty,
     Color as cesiumColor,
     GeometryInstance,
-    RectangleGeometry,
     Primitive,
-    EllipsoidSurfaceAppearance,
     Material,
     MaterialAppearance,
     CircleGeometry,
@@ -63,7 +47,7 @@ import * as echarts from "echarts";
     myChart.setOption(option);
     myChart.on('finished', () => {
         let criclePrimitive = getCriclePrimitive(myChart, { radius, lon, lat })
-        viewer.scene.primitives.add(criclePrimitive)
+        window.viewer.scene.primitives.add(criclePrimitive)
         myChart.dispose();
         myChart = null;
         canvasDom = null;
@@ -73,6 +57,7 @@ import * as echarts from "echarts";
 
 
 export function addCircleChart() {
+    
     let option = {
         series: [
             {
@@ -89,7 +74,7 @@ export function addCircleChart() {
             }
         ]
     };
-    drawPie(option, viewer, { lon: 116.19777, lat: 39.03883 })
+    drawPie(option, window.viewer, { lon: 116.19777, lat: 39.03883 })
     option = {
         series: [
             {
@@ -106,8 +91,8 @@ export function addCircleChart() {
             }
         ]
     };
-    drawPie(option, viewer, { lon: 102.19777, lat: 39.03883, radius: 200000.0 })
-    viewer.camera.flyTo({
+    drawPie(option, window.viewer, { lon: 102.19777, lat: 39.03883, radius: 200000.0 })
+    window.viewer.camera.flyTo({
         destination: Cartesian3.fromDegrees(116.19777, 39.03883, 10000000.0)
     });
     function drawPie(dataOption, veiwer, { radius = 100000.0, lon, lat } = {}) {
@@ -118,7 +103,7 @@ export function addCircleChart() {
         myChart.setOption(option);
         myChart.on('finished', () => {
             let criclePrimitive = getCriclePrimitive(myChart, { radius, lon, lat })
-            viewer.scene.primitives.add(criclePrimitive)
+            window.viewer.scene.primitives.add(criclePrimitive)
             myChart.dispose();
             myChart = null;
             canvasDom = null;

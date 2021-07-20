@@ -1,33 +1,19 @@
 import {
-    Ion,
-    TileMapServiceImageryProvider,
-    ScreenSpaceEventType,
-    Viewer,
     Cartesian3,
     HeadingPitchRoll,
     Matrix4,
-    ScreenSpaceEventHandler,
-    Math as cesiumMath,
     buildModuleUrl,
-    Cesium3DTileset,
-    Rectangle,
-    SceneMode,
     PolygonHierarchy,
     CallbackProperty,
     Color as cesiumColor,
     GeometryInstance,
-    RectangleGeometry,
     Primitive,
     EllipsoidSurfaceAppearance,
     Material,
     PolygonGeometry,
-    ClassificationType,
-
-
 } from "cesium";
+
 export function drawWater(targetHeight, waterHeight) {
-    //targetHeight 目标高度   adapCoordi 范围坐标[109.2039, 35.6042, 0, 109.2774 ,35.6025, 0,109.2766,35.5738, 0]   waterHeight  当前水高度
-    // let _data = this.insData();
     let entity;
     let adapCoordi = [
         109.1593320736039 ,32.992497345180624 ,268.6358833514805,

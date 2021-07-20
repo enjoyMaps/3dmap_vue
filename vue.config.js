@@ -2,16 +2,19 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const minify = require('html-minifier').minify;
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+// 定义压缩文件类型
+const productionGzipExtensions = ['js', 'css'];
 
 const cesiumSource = 'node_modules/cesium/Build/Cesium';
 
 function resolve(dir) {
     return path.join(__dirname, dir);
 }
-const theme = 'default'
+
+const theme = 'default';
 
 module.exports = {
     publicPath: './',
@@ -43,6 +46,14 @@ module.exports = {
                     },
                     canPrint: true,
                 }),
+                new CompressionWebpackPlugin({
+                    filename: '[path].gz[query]',
+                    algorithm: 'gzip',
+                    test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),//匹配文件名
+                    threshold: 10240,//对10K以上的数据进行压缩
+                    minRatio: 0.8,
+                    deleteOriginalAssets: false,//是否删除源文件
+                  }),
             ]
         } else {
             plugins = [
@@ -61,6 +72,14 @@ module.exports = {
                     },
                     canPrint: true,
                 }),
+                new CompressionWebpackPlugin({
+                    filename: '[path].gz[query]',
+                    algorithm: 'gzip',
+                    test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),//匹配文件名
+                    threshold: 10240,//对10K以上的数据进行压缩
+                    minRatio: 0.8,
+                    deleteOriginalAssets: false,//是否删除源文件
+                  }),
             ]
         }
         return {

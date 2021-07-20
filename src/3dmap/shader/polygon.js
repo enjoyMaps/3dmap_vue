@@ -1,8 +1,36 @@
-import * as Cesium from 'cesium';
+import {
+    Ion,
+    TileMapServiceImageryProvider,
+    ScreenSpaceEventType,
+    Viewer,
+    Cartesian3,
+    HeadingPitchRoll,
+    Matrix4,
+    Transforms,
+    CylinderGeometry,
+    ScreenSpaceEventHandler,
+    Math as cesiumMath,
+    buildModuleUrl,
+    Cesium3DTileset,
+    Rectangle,
+    SceneMode,
+    PolygonHierarchy,
+    CallbackProperty,
+    Color as cesiumColor,
+    GeometryInstance,
+    RectangleGeometry,
+    Primitive,
+    EllipsoidSurfaceAppearance,
+    Material,
+    MaterialAppearance,
+    CircleGeometry,
+    ColorGeometryInstanceAttribute,
+    PolygonGeometry,
+} from "cesium"; 
 
 export function addPolygon() {
     viewer.camera.setView({
-        destination: new Cesium.Cartesian3(-2644963.9889313546, 5763731.142118295, 2199400.7089496767), //世界坐标系下的一个坐标点
+        destination: new Cartesian3(-2644963.9889313546, 5763731.142118295, 2199400.7089496767), //世界坐标系下的一个坐标点
         orientation: {//旋转角度
             heading: 6.075,
             pitch: -0.727,
@@ -10,9 +38,9 @@ export function addPolygon() {
         }
     });
 
-    const extrudedPolygon = new Cesium.PolygonGeometry({
-        polygonHierarchy: new Cesium.PolygonHierarchy(
-            Cesium.Cartesian3.fromDegreesArray([
+    const extrudedPolygon = new PolygonGeometry({
+        polygonHierarchy: new PolygonHierarchy(
+            Cartesian3.fromDegreesArray([
                 112.41726298378288, 23.290411251106182,
                 113.67072522399741, 23.560312361463682,
                 114.09370956893551, 22.590768298743153,
@@ -22,12 +50,12 @@ export function addPolygon() {
         extrudedHeight: 30000
     });
 
-    const instance = new Cesium.GeometryInstance({
+    const instance = new GeometryInstance({
         geometry: extrudedPolygon,
         id: 'box with height'
     });
 
-    const m = new Cesium.Material({
+    const m = new Material({
         // fabric: {
             /*  source: `czm_material czm_getMaterial(czm_materialInput materialInput)
            {
@@ -40,7 +68,7 @@ export function addPolygon() {
            }` */
             /* type: 'Color',
             uniforms: {
-              color: new Cesium.Color(216 / 255.0, 170 / 255.0, 208 / 255.0).withAlpha(0.618),
+              color: new Color(216 / 255.0, 170 / 255.0, 208 / 255.0).withAlpha(0.618),
             }, */
         // }
         fabric : {
@@ -60,7 +88,7 @@ export function addPolygon() {
         }
     });
 
-    /*     const aper = new Cesium.MaterialAppearance({
+    /*     const aper = new MaterialAppearance({
             //   material : m,
             fragmentShaderSource:
                 ` varying vec3 v_positionEC;
@@ -92,7 +120,7 @@ export function addPolygon() {
         }); */
 
 
-    /*   const aper =  new Cesium.MaterialAppearance({
+    /*   const aper =  new MaterialAppearance({
           fragmentShaderSource: 
           ` varying vec3 v_positionEC;
             varying vec3 v_normalEC;
@@ -125,7 +153,7 @@ export function addPolygon() {
             }
            `
         }); */
-    /*    const aper =  new Cesium.MaterialAppearance({
+    /*    const aper =  new MaterialAppearance({
          fragmentShaderSource: `varying vec3 v_positionMC;
                      varying vec3 v_positionEC;
                      varying vec2 v_st;
@@ -215,7 +243,7 @@ export function addPolygon() {
 
 
 
-    const aper = new Cesium.MaterialAppearance({
+    const aper = new MaterialAppearance({
         // material : m,
         vertexShaderSource: 'attribute vec3 position;' +
         'attribute vec2 st;' +
@@ -320,7 +348,7 @@ export function addPolygon() {
         }` */
     });
 
-    var p = viewer.scene.primitives.add(new Cesium.Primitive({
+    var p = viewer.scene.primitives.add(new Primitive({
         geometryInstances: instance,
         appearance: aper,
         releaseGeometryInstances: false,

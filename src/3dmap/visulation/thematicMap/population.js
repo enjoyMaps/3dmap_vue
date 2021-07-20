@@ -1,5 +1,4 @@
 // import "./bucket.css";
-
 import {
     Cartesian3,
     defined,
@@ -346,7 +345,7 @@ export function addPopulationMap(viewer) {
   dataSource
     .loadUrl("./config/json/population909500.json")
     .then(function () {
-      //After the initial load, create buttons to let the user switch among series.
+      
       function createSeriesSetter(seriesName) {
         return function () {
           dataSource.seriesToDisplay = seriesName;
@@ -355,10 +354,7 @@ export function addPopulationMap(viewer) {
   
       for (var i = 0; i < dataSource.seriesNames.length; i++) {
         var seriesName = dataSource.seriesNames[i];
-        Sandcastle.addToolbarButton(
-          seriesName,
-          createSeriesSetter(seriesName)
-        );
+          createSeriesSetter(seriesName);
       }
     });
   

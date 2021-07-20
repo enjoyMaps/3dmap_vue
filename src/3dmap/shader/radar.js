@@ -1,37 +1,43 @@
-import * as Cesium from 'cesium'
-import * as mapv from './mapv.js'
-
-
+import {
+    Cartesian3,
+    Matrix4,
+    Transforms,
+    CylinderGeometry,
+    PolygonHierarchy,
+    Color as cesiumColor,
+    GeometryInstance,
+    Primitive,
+    Material,
+    MaterialAppearance,
+} from "cesium";
 
 export function addradar(viewer) {
-    console.log(mapv);
-
     //雷达的高度
     var length = 400000.0;
     //地面位置(垂直地面)
-    var positionOnEllipsoid = Cesium.Cartesian3.fromDegrees(116.39, 39.9);
+    var positionOnEllipsoid = Cartesian3.fromDegrees(116.39, 39.9);
     //中心位置
-    // var centerOnEllipsoid = Cesium.Cartesian3.fromDegrees(116.39, 39.9, length * 0.5);
+    // var centerOnEllipsoid = Cartesian3.fromDegrees(116.39, 39.9, length * 0.5);
     // // 顶部位置(卫星位置)
-    // var topOnEllipsoid = Cesium.Cartesian3.fromDegrees(116.39, 39.9, length);
+    // var topOnEllipsoid = Cartesian3.fromDegrees(116.39, 39.9, length);
     //矩阵计算
-    var modelMatrix = Cesium.Matrix4.multiplyByTranslation( //转换矩阵
-        Cesium.Transforms.eastNorthUpToFixedFrame(positionOnEllipsoid), //矩阵
-        new Cesium.Cartesian3(0.0, 0.0, length * 0.5), //要转换的笛卡尔坐标 
-        new Cesium.Matrix4() //返回新的矩阵
+    var modelMatrix = Matrix4.multiplyByTranslation( //转换矩阵
+        Transforms.eastNorthUpToFixedFrame(positionOnEllipsoid), //矩阵
+        new Cartesian3(0.0, 0.0, length * 0.5), //要转换的笛卡尔坐标 
+        new Matrix4() //返回新的矩阵
     );
 
 
 
     // 1. 构造geometry
-    var cylinderGeometry = new Cesium.CylinderGeometry({
+    var cylinderGeometry = new CylinderGeometry({
         length: length,
         topRadius: 0.0,
         bottomRadius: length * 0.5,
-        vertexFormat: Cesium.MaterialAppearance.MaterialSupport.TEXTURED.vertexFormat
+        vertexFormat: MaterialAppearance.MaterialSupport.TEXTURED.vertexFormat
     });
     // 2. 创建GeometryInstance
-    var redCone = new Cesium.GeometryInstance({
+    var redCone = new GeometryInstance({
         geometry: cylinderGeometry, //geomtry类型
         modelMatrix: modelMatrix, //模型矩阵 调整矩阵的位置和方向
     });
@@ -58,11 +64,11 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
 	return material;
 }`
 
-    let material = new Cesium.Material({
+    let material = new Material({
         fabric: {
             type: 'VtxfShader1',
             uniforms: { //动态传递参数
-                color: new Cesium.Color(0.2, 1.0, 0.0, 1.0),
+                color: new cesiumColor(0.2, 1.0, 0.0, 1.0),
                 repeat: 30.0,
                 offset: 0.0,
                 thickness: 0.3,
@@ -73,15 +79,15 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
     })
 
 
-    let appearance = new Cesium.MaterialAppearance({
+    let appearance = new MaterialAppearance({
         material: material,//自定义的材质
-        faceForward: false, // 当绘制的三角面片法向不能朝向视点时，自动翻转法向，					从而避免法向计算后发黑等问题
-        closed: true // 是否为封闭体，实际上执行的是是否进行背面裁剪
+        faceForward: false, // 当绘制的三角面片法向不能朝向视点时，自动翻转法向,从而避免法向计算后发黑等问题
+        closed: true // 是否为封闭体,实际上执行的是是否进行背面裁剪
     })
 
     //添加Primitive
     var radar = viewer.scene.primitives.add(
-        new Cesium.Primitive({
+        new Primitive({
             geometryInstances: [redCone],
             appearance: appearance
         }));
@@ -116,7 +122,7 @@ export function drawWater(targetHeight, waterHeight) {
     //方式1
     entity = entities.add({
         polygon: {
-            hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(adapCoordi)),
+            hierarchy: new PolygonHierarchy(Cartesian3.fromDegreesArrayHeights(adapCoordi)),
             perPositionHeight: true,
             extrudedHeight: new Cesium.CallbackProperty(function () {  //此处用属性回调函数，直接设置extrudedHeight会导致闪烁。
                 waterHeight += 3;
@@ -125,7 +131,7 @@ export function drawWater(targetHeight, waterHeight) {
                 }
                 return waterHeight
             }, false),
-            material: new Cesium.Color.fromBytes(0, 191, 255, 100),
+            material: new cesiumColor.fromBytes(0, 191, 255, 100),
         }
     });
     //方式2  此方式会出现闪烁

@@ -1,18 +1,27 @@
-import { ScreenSpaceEventType, Cartesian2, Cartesian3, Entity, Color, NearFarScalar, CallbackProperty, LabelStyle, Cartographic, EllipsoidGeodesic, Math as cesiumMath, PolygonHierarchy, ClassificationType, defined, DeveloperError, BillboardCollection, VerticalOrigin, ScreenSpaceEventHandler, LabelCollection, Ellipsoid, HorizontalOrigin, HeightReference, Matrix4, PolygonGraphics, SceneMode } from 'cesium'
+import { 
+    ScreenSpaceEventType, 
+    Cartesian2, 
+    Cartesian3, 
+    Color, 
+    CallbackProperty, 
+    LabelStyle, 
+    Cartographic, 
+    Math as cesiumMath, 
+    PolygonHierarchy, 
+    defined, 
+    VerticalOrigin, 
+    ScreenSpaceEventHandler, 
+    HorizontalOrigin, 
+    HeightReference, 
+    Matrix4, 
+    PolygonGraphics, 
+    SceneMode 
+} from 'cesium'
 import { MovePrompt } from './drawtools/prompt/movePrompt.js'
 
-/* import { point, polygon, featureCollection } from '@turf/helpers'
-import { center as centerTurf } from '@turf/center'
-import { area as areaTurf } from '@turf/area' */
 import { point, polygon as polygonTurf, featureCollection } from '@turf/turf'
 import { center as centerTurf } from '@turf/turf'
 import { area as areaTurf } from '@turf/turf'
-
-
-// import { point, polygon as turfPolygon,featureCollection } from '@turf/helpers'
-// import {center as turfCenter} from '@turf/center'
-// import { area as turfArea } from '@turf/area'
-// import {turf} from '../../../public/turf.min.js'
 
 
 //空间距离量算js
@@ -516,65 +525,61 @@ export function measureHgt(viewer) {
 * @param {Array.Cartesian}
 * @returns {Number} 返回面积数值。
 */
-export function getSurfaceArea (positions) {
- if (positions.length < 3) {
-   return 0
- }
- const { Cartesian3, EllipsoidTangentPlane, Ellipsoid, Math: CesiumMath, PolygonGeometryLibrary, PolygonHierarchy, VertexFormat } = Cesium
- const perPositionHeight = true
- // 获取组成多边形的三角形。
- const tangentPlane = EllipsoidTangentPlane.fromPoints(
-   positions,
-   Ellipsoid.WGS84
- )
- const polygons = PolygonGeometryLibrary.polygonsFromHierarchy(
-   new PolygonHierarchy(positions),
-   tangentPlane.projectPointsOntoPlane.bind(tangentPlane),
-   !perPositionHeight,
-   Ellipsoid.WGS84
- )
+export function getSurfaceArea(positions) {
+    if (positions.length < 3) {
+        return 0
+    }
+    const { Cartesian3, EllipsoidTangentPlane, Ellipsoid, Math: CesiumMath, PolygonGeometryLibrary, PolygonHierarchy, VertexFormat } = Cesium
+    const perPositionHeight = true
+    // 获取组成多边形的三角形。
+    const tangentPlane = EllipsoidTangentPlane.fromPoints(
+        positions,
+        Ellipsoid.WGS84
+    )
+    const polygons = PolygonGeometryLibrary.polygonsFromHierarchy(
+        new PolygonHierarchy(positions),
+        tangentPlane.projectPointsOntoPlane.bind(tangentPlane),
+        !perPositionHeight,
+        Ellipsoid.WGS84
+    )
 
- const geom = PolygonGeometryLibrary.createGeometryFromPositions(
-   Ellipsoid.WGS84,
-   polygons.polygons[0],
-   CesiumMath.RADIANS_PER_DEGREE,
-   perPositionHeight,
-   VertexFormat.POSITION_ONLY
- )
+    const geom = PolygonGeometryLibrary.createGeometryFromPositions(
+        Ellipsoid.WGS84,
+        polygons.polygons[0],
+        CesiumMath.RADIANS_PER_DEGREE,
+        perPositionHeight,
+        VertexFormat.POSITION_ONLY
+    )
 
- if (geom.indices.length % 3 !== 0 || geom.attributes.position.values.length % 3 !== 0) {
-   // 不是三角形，无法计算。
-   return 0
- }
- const coords = []
- for (let i = 0; i < geom.attributes.position.values.length; i += 3) {
-   coords.push(
-     new Cartesian3(
-       geom.attributes.position.values[i],
-       geom.attributes.position.values[i + 1],
-       geom.attributes.position.values[i + 2]
-     )
-   )
- }
- let area = 0
- for (let i = 0; i < geom.indices.length; i += 3) {
-   const ind1 = geom.indices[i]
-   const ind2 = geom.indices[i + 1]
-   const ind3 = geom.indices[i + 2]
+    if (geom.indices.length % 3 !== 0 || geom.attributes.position.values.length % 3 !== 0) {
+        // 不是三角形，无法计算。
+        return 0
+    }
+    const coords = []
+    for (let i = 0; i < geom.attributes.position.values.length; i += 3) {
+        coords.push(
+            new Cartesian3(
+                geom.attributes.position.values[i],
+                geom.attributes.position.values[i + 1],
+                geom.attributes.position.values[i + 2]
+            )
+        )
+    }
+    let area = 0
+    for (let i = 0; i < geom.indices.length; i += 3) {
+        const ind1 = geom.indices[i]
+        const ind2 = geom.indices[i + 1]
+        const ind3 = geom.indices[i + 2]
 
-   const a = Cartesian3.distance(coords[ind1], coords[ind2])
-   const b = Cartesian3.distance(coords[ind2], coords[ind3])
-   const c = Cartesian3.distance(coords[ind3], coords[ind1])
+        const a = Cartesian3.distance(coords[ind1], coords[ind2])
+        const b = Cartesian3.distance(coords[ind2], coords[ind3])
+        const c = Cartesian3.distance(coords[ind3], coords[ind1])
 
-   // 海伦公式
-   const s = (a + b + c) / 2.0
-   area += Math.sqrt(s * (s - a) * (s - b) * (s - c))
- }
- return area
+        // 海伦公式
+        const s = (a + b + c) / 2.0
+        area += Math.sqrt(s * (s - a) * (s - b) * (s - c))
+    }
+    return area
 }
 
-
-
-
-// export { MeasureSpaceDistance, MeasureSpaceArea };
 export { MeasureSpaceDistance, MeasureSpaceArea };

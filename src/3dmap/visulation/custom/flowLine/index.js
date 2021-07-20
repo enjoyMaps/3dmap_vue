@@ -14,9 +14,6 @@ import {
 import GPS from "./gps.js"
 
 export function flowLine(viewer) {
-    /* clock = new Cesium.Clock();
-    clock.shouldAnimate = true;
-    vmClock = new Cesium.ClockViewModel(clock); */
 
     viewer.scene.camera.flyTo({
         destination: Cartesian3.fromDegrees(
@@ -30,13 +27,8 @@ export function flowLine(viewer) {
         },
     });
 
-    /* viewer.imageryLayers.get(0).brightness = 0.15;
-    viewer.scene.mode = Cesium.SceneMode.SCENE2D;
-    $('#loadingbar').remove(); */
-
     let resource = Resource.createIfNeeded('./data/wuhan-car');
     resource.fetchText().then(function(rs) {
-        //////////////////////////////////////////
         let animationObj = {
         stepsRange: {
                 start: 0,
@@ -47,7 +39,6 @@ export function flowLine(viewer) {
         };
 
         let _range = animationObj.stepsRange.end - animationObj.stepsRange.start;
-        //////////////////////////////////////////
         let entityArray = [];
         let curLineArray = [];
 

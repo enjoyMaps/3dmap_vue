@@ -1,20 +1,7 @@
 import {
-    Ion,
-    TileMapServiceImageryProvider,
     ScreenSpaceEventType,
-    buildModuleUrl,
     Cartesian3,
-    Cesium3DTileset,
-    HeadingPitchRoll,
-    Matrix4,
     ScreenSpaceEventHandler,
-    Math as cesiumMath,
-    PolygonHierarchy,
-    Material,
-    Primitive,
-    GeometryInstance,
-    PolygonGeometry,
-    EllipsoidSurfaceAppearance
 } from "cesium";
 
 let pViewer;
@@ -94,8 +81,6 @@ export function personalViewer(viewer) {
         if (flags.looking) {
             var width = viewer.canvas.clientWidth;
             var height = viewer.canvas.clientHeight;
-
-            // Coordinate (0.0, 0.0) will be where the mouse was clicked.
             var x = (mousePosition.x - startMousePosition.x) / width;
             var y = -(mousePosition.y - startMousePosition.y) / height;
 

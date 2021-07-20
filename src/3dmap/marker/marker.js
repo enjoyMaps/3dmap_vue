@@ -7,9 +7,6 @@ import {
     VerticalOrigin,
     PointPrimitiveCollection,
     LabelStyle,
-    DistanceDisplayCondition,
-    NearFarScalar,
-
 } from "cesium";
 
 

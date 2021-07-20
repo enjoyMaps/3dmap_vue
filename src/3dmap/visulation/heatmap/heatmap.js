@@ -1,11 +1,11 @@
-import * as Cesium from 'cesium';
+// import * as Cesium from 'cesium';
 
 import data  from './last-all-airbox.js'
-import getCesiumHeat from 'cesiumjs-heat'
+import getCesiumHeat from './lib/CesiumHeat.js'
 
 let heat;
 export function addHeatmap(viewer) {
-    const CesiumHeat = getCesiumHeat(Cesium);
+    const CesiumHeat = getCesiumHeat();
     heat = new CesiumHeat(
         viewer,
         // data list, each has x, y, and value | 数据数组，每个包含 x,y,value字段
@@ -22,6 +22,6 @@ export function addHeatmap(viewer) {
     // destory | 销毁
     setTimeout(() => heat.destory(), 50 * 1000);
 }
-export function delHeatmap(viewer) {
+export function delHeatmap() {
     heat.destory();
 }
