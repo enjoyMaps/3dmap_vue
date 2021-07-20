@@ -22,8 +22,8 @@ export function init3dmap() {
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
-        animation: true, //是否创建动画小器件，左下角仪表 
-        timeline: true, //是否显示时间轴
+        animation: false, //是否创建动画小器件，左下角仪表 
+        timeline: false, //是否显示时间轴
         sceneModePicker: false, //是否显示3D/2D选择器  
         geocoder: false, //是否显示geocoder小器件，右上角查询按钮
         sceneMode: SceneMode.SCENE3D,
