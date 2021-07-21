@@ -15,8 +15,6 @@ import SuperGif from "../utils/gifs/libgif.js";
 // let billboards = [];
 let gifs = "";
 // 添加标注
-
-
 //闪烁点
 export function shanshuo(viewer) {
     let x = 1;
