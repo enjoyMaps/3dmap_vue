@@ -116,7 +116,6 @@ export function drawWater(targetHeight, waterHeight) {
         108.92588078771945, 32.709338187077314, 266.9447029199429,
     ]
     var entities = window.viewer.entities;
-    //方式1
     entity = entities.add({
         polygon: {
             hierarchy: new PolygonHierarchy(Cartesian3.fromDegreesArrayHeights(adapCoordi)),
