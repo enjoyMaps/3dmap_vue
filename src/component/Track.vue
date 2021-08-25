@@ -55,7 +55,6 @@ export default {
                     height: 320,
                     flytime: 5,
                 },
-                // height:相机高度(单位米) flytime:相机两个标注点飞行时间(单位秒)
                 {
                     lng: 108.93593381166,
                     lat: 32.70842795152455,
