@@ -1,33 +1,6 @@
 window.CESIUM_BASE_URL = '/';
 import "cesium/Build/Cesium/Widgets/widgets.css";
-/* import {
-    Ion,
-    TileMapServiceImageryProvider,
-    ScreenSpaceEventType,
-    Viewer,
-    Cartesian3,
-    HeadingPitchRoll,
-    Matrix4,
-    Transforms,
-    CylinderGeometry,
-    ScreenSpaceEventHandler,
-    Math as cesiumMath,
-    buildModuleUrl,
-    Cesium3DTileset,
-    Rectangle,
-    SceneMode,
-    PolygonHierarchy,
-    CallbackProperty,
-    Color as cesiumColor,
-    GeometryInstance,
-    RectangleGeometry,
-    Primitive,
-    EllipsoidSurfaceAppearance,
-    Material,
-    MaterialAppearance,
-    CircleGeometry,
-    ColorGeometryInstanceAttribute
-} from "cesium"; */
+
 import {
     Ion,
     ScreenSpaceEventType,
