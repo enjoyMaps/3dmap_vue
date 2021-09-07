@@ -168,22 +168,25 @@ export function addGifBillboard(viewer) {
 }
 
 // 添加文字标注
-export function addTextBillboard(viewer) {
-    viewer.entities.add({
-        position: Cartesian3.fromDegrees(
-            108.93538879841549,
-            32.70958345994372,
-            275.4791541624723 + 10
-        ),
-        label: {
-            text: "Philadelphia",
-            font: "24px Helvetica",
-            fillColor: Color.SKYBLUE,
-            outlineColor: Color.BLACK,
-            outlineWidth: 2,
-            style: LabelStyle.FILL_AND_OUTLINE,
-        },
-    });
+let textLabel = [];
+export function addTextBillboard(position) {
+    textLabel.push(
+        window.viewer.entities.add({
+            position: Cartesian3.fromDegrees(
+                108.93538879841549,
+                32.70958345994372,
+                275.4791541624723 + 10
+            ),
+            label: {
+                text: "Philadelphia",
+                font: "24px Helvetica",
+                fillColor: Color.SKYBLUE,
+                outlineColor: Color.BLACK,
+                outlineWidth: 2,
+                style: LabelStyle.FILL_AND_OUTLINE,
+            },
+        })
+    )
 }
 
 // 删除当前加载的标注

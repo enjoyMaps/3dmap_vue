@@ -120,6 +120,7 @@
             </div>
             <video
                 id="trailer"
+                muted = "false"
                 autoplay
                 loop
                 crossorigin
