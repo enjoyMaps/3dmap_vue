@@ -15,29 +15,6 @@ import SuperGif from "../utils/gifs/libgif.js";
 // let billboards = [];
 let gifs = "";
 // 添加标注
-
-//大量点加载
-export function bigdata(viewer) {
-    let randomCount = 200;
-    let pointPrimitives = null; // 申明点渲染集合
-    pointPrimitives = viewer.scene.primitives.add(
-        new PointPrimitiveCollection()
-    );
-    while (randomCount--) {
-        const dd = [3];
-        dd[0] = 0 + Math.random() * 20;
-        dd[1] = 0 + Math.random() * 20;
-        dd[2] = 100;
-        let position = new Cartesian3.fromDegrees(dd[0], dd[1], dd[2]);
-        pointPrimitives.add({
-            pixelSize: 50,
-            color: Color.BLUE.withAlpha(0.6),
-            outlineColor: Color.BLACK.withAlpha(0.6),
-            outlineWidth: 0,
-            position: position,
-        });
-    }
-}
 //闪烁点
 export function shanshuo(viewer) {
     let x = 1;

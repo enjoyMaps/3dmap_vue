@@ -27,8 +27,6 @@ export function addradar(viewer) {
         new Matrix4() //返回新的矩阵
     );
 
-
-
     // 1. 构造geometry
     var cylinderGeometry = new CylinderGeometry({
         length: length,
@@ -41,7 +39,6 @@ export function addradar(viewer) {
         geometry: cylinderGeometry, //geomtry类型
         modelMatrix: modelMatrix, //模型矩阵 调整矩阵的位置和方向
     });
-
 
     let source =
         //传入的动态数值
@@ -119,7 +116,6 @@ export function drawWater(targetHeight, waterHeight) {
         108.92588078771945, 32.709338187077314, 266.9447029199429,
     ]
     var entities = window.viewer.entities;
-    //方式1
     entity = entities.add({
         polygon: {
             hierarchy: new PolygonHierarchy(Cartesian3.fromDegreesArrayHeights(adapCoordi)),
@@ -134,32 +130,5 @@ export function drawWater(targetHeight, waterHeight) {
             material: new cesiumColor.fromBytes(0, 191, 255, 100),
         }
     });
-    //方式2  此方式会出现闪烁
-    //                let entity = entities.add({
-    //                    polygon : {
-    //                    hierarchy : new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(adapCoordi)),
-    //                        perPositionHeight: true,
-    //                        extrudedHeight: waterHeight,
-    //                        material : new Cesium.Color.fromBytes(0,191,255,100),
-    //                }
-    //            });
-    //                this.timer = setInterval(() => {
-    //                    let incre = 3;
-    //                    if (waterHeight < targetHeight) {
-    //                        waterHeight += incre;
-    /* let tempEntity = entities.add({
-        polygon : {
-            hierarchy : new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(adapCoordi)),
-            perPositionHeight: true,
-            extrudedHeight: waterHeight,
-            material : new Cesium.Color.fromBytes(0,191,255,50)
-        }
-    }); */
-    //                    if (waterHeight > targetHeight) {
-    //                        waterHeight = targetHeight
-    //                    }
-    //                    entity.polygon.extrudedHeight.setValue(waterHeight)
-    //                    }
-    //                }, 250)
 
 }

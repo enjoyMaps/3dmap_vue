@@ -19,10 +19,7 @@ import {
 } from 'cesium'
 import { MovePrompt } from './drawtools/prompt/movePrompt.js'
 
-import { point, polygon as polygonTurf, featureCollection } from '@turf/turf'
-import { center as centerTurf } from '@turf/turf'
-import { area as areaTurf } from '@turf/turf'
-
+import { point, polygon as polygonTurf, featureCollection,area as areaTurf ,center as centerTurf } from '@turf/turf'
 
 //空间距离量算js
 var MeasureSpaceDistance = function (viewer, opt) {
