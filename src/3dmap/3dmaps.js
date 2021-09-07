@@ -18,8 +18,7 @@ import { TDT_IMG, TDT_CIA, } from "./utils/layers.js"
 let billboards = [];
 export function init3dmap() {
     let viewer;
-    Ion.defaultAccessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhNWNlNTYxNy1jMWUyLTQzZDEtOGVkOC05NWMxMDZjNWI2MmUiLCJpZCI6MTg3NzIsImlhdCI6MTYxNzc3Mzg0N30.HYsuY1lxUR7BSFC9673ApPz2AccXbOtrPRIBCm7AgNU";
+    Ion.defaultAccessToken = "";
     /* eslint no-new: */
     viewer = new Viewer("cesiumContainer", {
         useDefaultRenderLoop: true,
