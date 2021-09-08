@@ -21,6 +21,8 @@ export function addGlobeFly() {
         },
     });
 }
+
+
 export function delGlobeFly() {
     window.viewer.dataSources.removeAll();
 }
